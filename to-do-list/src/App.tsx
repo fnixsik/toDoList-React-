@@ -3,7 +3,7 @@ import './App.css';
 import Box from './components/block/box';
 import {v1} from 'uuid';
 
-export type filterType = 'all' | 'half' | 'last'
+export type filterType = 'All' | 'Active' | 'Complated'
 
 function App() {
 
@@ -14,7 +14,7 @@ function App() {
     {id : v1(), title: 'React', isDone: true},
   ]
   )
-  let [increFilter, setFilter] = useState<filterType>('all')
+  let [increFilter, setFilter] = useState<filterType>('All')
 
   function remuveBoxValue (id : string){
     let setNewDate = increState.filter(g=> g.id !== id)
@@ -32,7 +32,6 @@ function App() {
   }
 
   function changeSatus (id : string, isDone : boolean){
-    console.log('id ', "|  isDone ", isDone)
     const isDoneStatus = increState.find(e => e.id === id)
     if(isDoneStatus){
       isDoneStatus.isDone = isDone;
@@ -42,10 +41,10 @@ function App() {
 
 
   let filterState = increState;
-  if(increFilter === 'half'){
+  if(increFilter === 'Active'){
     filterState = increState.filter(u => u.isDone === true)
   }
-  else if (increFilter === 'last'){
+  else if (increFilter === 'Complated'){
     filterState = increState.filter(u => u.isDone === false)
   }
 
@@ -58,6 +57,15 @@ function App() {
       callfilter = {filterStateCall}
       callAddLine = {addTableLine}
       callChangeStatus = {changeSatus}
+      changefilter = {increFilter}
+      />
+      <Box title = 'What you need lernd' 
+      increState = {filterState} 
+      remuve = {remuveBoxValue}
+      callfilter = {filterStateCall}
+      callAddLine = {addTableLine}
+      callChangeStatus = {changeSatus}
+      changefilter = {increFilter}
       />
     </div>
   )

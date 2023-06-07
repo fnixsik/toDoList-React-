@@ -11,6 +11,7 @@ type TaskType = {
 type PropsType = {
   title : string;
   increState : Array<TaskType>;
+  changefilter : filterType;
   remuve : (id: string)=> void;
   callfilter: (value: filterType)=> void;
   callAddLine: (title : string)=> void;
@@ -33,6 +34,9 @@ function Box(props: PropsType ) {
   }
 
   const onchangeInput = (e : ChangeEvent<HTMLInputElement>)=>{
+    if(e.currentTarget.value !== ''){
+      setError('');
+    }
     setvalue(e.currentTarget.value)
   }
 
@@ -51,16 +55,23 @@ function Box(props: PropsType ) {
               props.callChangeStatus(i.id,e.currentTarget.checked);
             }
 
-           return <li><input type="checkbox" onChange={onChangeStatus} checked={i.isDone}/><span>{i.title}</span>
+           return <li><input type="checkbox" 
+           onChange={onChangeStatus} 
+           checked={i.isDone}
+           className={i.isDone ? 'is-done' : ''}
+           /><span>{i.title}</span>
            <button onClick={()=> props.remuve(i.id)}>Удалить</button>
            </li>
           })
         }
       </ul>
       <div>
-        <button onClick={()=>{props.callfilter('all')}}>All</button>
-        <button onClick={()=>{props.callfilter('half')}}>Active</button>
-        <button onClick={()=>{props.callfilter('last')}}>Complated</button>
+        <button onClick={()=>{props.callfilter('All')}} 
+        className={props.changefilter === 'All' ? 'active-filter' : ''}>All</button>
+        <button onClick={()=>{props.callfilter('Active')}} 
+        className={props.changefilter === 'Active'? 'active-filter' : ''}>Active</button>
+        <button onClick={()=>{props.callfilter('Complated')}} 
+        className={props.changefilter === 'Complated' ? 'active-filter' : ''}>Complated</button>
       </div>
     </div>
   )
